@@ -18,7 +18,7 @@ export const authSlice = createSlice({
   }
 })
 
-export const signupThunk = ({ username, password }) => {
+export const signupThunk = ({ username, password }) =>
   async () => {
     const response = await axios.post(
       `${process.env.REACT_APP_SERVER}/auth/signup`,
@@ -26,9 +26,8 @@ export const signupThunk = ({ username, password }) => {
     )
     console.log(response.data);
   }
-}
 
-export const loginThunk = ({ username, password }) => {
+export const loginThunk = ({ username, password }) =>
   async (dispatch) => {
     const response = await axios.post(
       `${process.env.REACT_APP_SERVER}/auth/login`,
@@ -37,7 +36,7 @@ export const loginThunk = ({ username, password }) => {
     localStorage.setItem("token", response.data.token);
     dispatch(login());
   }
-}
+
 
 export const logoutThunk = () => async (dispatch) => {
   localStorage.removeItem("token");

@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-export const registerUser = async (req, res) => {
+exports.registerUser = async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.find({ username });
@@ -11,6 +11,7 @@ export const registerUser = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ username, password: hashedPassword });
+    console.log(newUser);
     await newUser.save();
     res.status(200);
   } catch (error) {
@@ -18,7 +19,7 @@ export const registerUser = async (req, res) => {
   }
 }
 
-export const loginUser = async (req, res) => {
+exports.loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.find({ username });
