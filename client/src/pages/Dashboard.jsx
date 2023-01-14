@@ -1,8 +1,17 @@
-import React from 'react'
+import TodoCard from "../components/TodoCard";
+
+const todos = ["todo1", "todo2", "todo3"];
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div>
+      <h1>Todos</h1>
+      <div>
+        {todos.map(todo => (
+          <TodoCard todo={todo} />
+        ))}
+      </div>
+    </div>
   )
 }
 

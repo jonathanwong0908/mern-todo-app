@@ -28,6 +28,11 @@ const AuthForm = ({ page }) => {
       >
         {buttonText}
       </button>
+      <button
+        onClick={() => navigate(page === "signup" ? "/login" : "/signup")}
+      >
+        {page === "signup" ? "Login" : "Sign Up"}
+      </button>
     </div>
   )
 }

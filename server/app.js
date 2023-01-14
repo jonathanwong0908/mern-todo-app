@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const jwtStrategy = require("./config/passport");
 
 const authRoutes = require("./routes/auth");
+const todoRoutes = require("./routes/todo");
 
 dotenv.config();
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 jwtStrategy().initialize();
 
 app.use("/auth", authRoutes);
+app.use("/", todoRoutes);
 
 const PORT = 9000;
 mongoose.connect(process.env.MONGO_URL)
