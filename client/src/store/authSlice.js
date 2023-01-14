@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const token = localStorage.getItem("token")
+
 const initialState = {
-  isAuthenticated: localStorage.getItem("token") !== null || false
+  isAuthenticated: token ? true : false
 }
 
 export const authSlice = createSlice({
@@ -24,7 +26,7 @@ export const signupThunk = ({ username, password }) =>
       `${process.env.REACT_APP_SERVER}/auth/signup`,
       { username, password }
     )
-    console.log(response.data);
+    console.log(response.data.username);
   }
 
 export const loginThunk = ({ username, password }) =>

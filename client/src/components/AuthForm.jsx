@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useRef } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signupThunk, loginThunk } from "../store/authSlice";
 
@@ -10,13 +10,8 @@ const AuthForm = ({ page }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isAuthenticated = useSelector(store => store.auth.isAuthenticated);
-
   const buttonText = page === "signup" ? "Sign Up" : "Login";
-
-  useEffect(() => {
-    isAuthenticated && navigate("/");
-  }, [isAuthenticated, navigate])
+  const authThunk = page === "signup" ? signupThunk : loginThunk;
 
   return (
     <div>
@@ -25,18 +20,11 @@ const AuthForm = ({ page }) => {
       <input type="password" placeholder="Password" name="password" ref={passwordRef} />
       <button
         onClick={() => dispatch(
-          page === "signup"
-            ? signupThunk({
-              username: usernameRef.current.value,
-              password: passwordRef.current.value
-            })
-            : loginThunk({
-              username: usernameRef.current.value,
-              password: passwordRef.current.value
-            })
-        ).then(() => {
-          navigate(page === "signup" ? "/login" : "/")
-        })}
+          authThunk({
+            username: usernameRef.current.value,
+            password: passwordRef.current.value
+          })
+        ).then(() => navigate(page === "signup" ? "/login" : "/"))}
       >
         {buttonText}
       </button>

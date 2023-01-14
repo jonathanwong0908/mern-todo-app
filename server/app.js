@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: process.env.FRONTEND_ADDRESS
+  origin: process.env.FRONTEND_SERVER
 }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -19,7 +19,7 @@ jwtStrategy().initialize();
 
 app.use("/auth", authRoutes);
 
-const PORT = process.env.PORT || 9000;
+const PORT = 9000;
 mongoose.connect(process.env.MONGO_URL)
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`))
