@@ -17,11 +17,19 @@ export const todoSlice = createSlice({
 
 export const getTodosThunk = () => async (dispatch) => {
   const token = localStorage.getItem("token");
-  const response = await axios.get(
-    `${process.env.REACT_APP_SERVER}/todos`,
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
+  const url = `${process.env.REACT_APP_SERVER}/todos`;
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+  const response = await axios.get(url, config);
   dispatch(setTodos(response.data))
+}
+
+export const addTodoThunk = (todo) => async (dispatch) => {
+  const token = localStorage.getItem("token");
+  const url = `${process.env.REACT_APP_SERVER}/todos`;
+  const data = { todo };
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+  const response = await axios.post(url, data, config);
+  dispatch(setTodos(response.data));
 }
 
 export const { setTodos } = todoSlice.actions;

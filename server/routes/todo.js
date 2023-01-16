@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.get("/todos", authorizeUser, todoController.getTodos);
 
+router.post("/todos", authorizeUser, todoController.postTodos);
+
 module.exports = router;
