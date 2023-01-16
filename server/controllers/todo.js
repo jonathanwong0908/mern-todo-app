@@ -6,9 +6,7 @@ exports.getTodos = async (req, res) => {
   const user = await User.findOne({ username });
   if (!user.todos.length) return res.json([]);
   await user.populate("todos");
-  const todos = user.todos.map(todoObject => {
-    return { todo: todoObject.todo, id: todoObject._id };
-  });
+  const todos = extractTodos(user);
   res.json(todos);
 }
 
@@ -21,9 +19,7 @@ exports.postTodos = async (req, res) => {
   user.todos = [newTodo.id, ...user.todos];
   await user.save();
   await user.populate("todos");
-  const todos = user.todos.map(todoObject => {
-    return { todo: todoObject.todo, id: todoObject._id };
-  });
+  const todos = extractTodos(user);
   res.json(todos);
 }
 
@@ -36,23 +32,24 @@ exports.updateTodo = async (req, res) => {
   await todo.save();
   const user = await User.findOne({ username });
   await user.populate("todos");
-  const todos = user.todos.map(todoObject => {
-    return { todo: todoObject.todo, id: todoObject._id };
-  });
+  const todos = extractTodos(user);
   res.json(todos);
 }
 
 exports.deleteTodo = async (req, res) => {
   const username = req.user;
   const currentTodoId = req.body.todoId;
-  console.log(req.body);
   await Todo.deleteOne({ id: currentTodoId });
   const user = await User.findOne({ username });
   user.todos = user.todos.filter(todoId => todoId.toString() !== currentTodoId);
   await user.save();
+  const todos = extractTodos(user);
+  res.json(todos);
+}
+
+function extractTodos(user) {
   const todos = user.todos.map(todoObject => {
     return { todo: todoObject.todo, id: todoObject._id };
-  });
-  console.log(todos);
-  res.json(todos);
+  })
+  return todos;
 }

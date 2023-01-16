@@ -43,7 +43,7 @@ export const loginThunk = ({ username, password }) =>
     )
     const { token, user } = response.data;
     localStorage.setItem("token", response.data.token);
-    dispatch(login({ token, user }));
+    await dispatch(login({ token, user }));
   }
 
 

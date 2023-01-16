@@ -8,7 +8,7 @@ function App() {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   return (
-    <div className="App">
+    <div className="app">
       <Routes>
         <Route path="/login" element={isAuthenticated ? <Dashboard /> : <Login />} />
         <Route path="/signup" element={<Signup />} />

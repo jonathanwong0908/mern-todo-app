@@ -1,13 +1,104 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+* {
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#root {
+  width: 100vw;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  display: grid;
+  place-items: center;
+  padding: 5rem 0;
+  width: 100%;
+  background-color: #333;
+}
+
+button:hover,
+button:focus {
+  cursor: pointer;
+}
+
+h1 {
+  color: white;
+}
+
+.app {
+  display: grid;
+  place-items: center;
+}
+
+.dashboardContainer,
+.authFormContainer {
+  display: grid;
+  padding: 2rem;
+  width: 50%;
+  border-radius: 20px;
+  background-color: rgb(78, 78, 78);
+}
+
+.authFormContainer h1 {
+  margin-bottom: 2rem;
+}
+
+.authFormContainer input {
+  margin-bottom: 1rem;
+}
+
+.authFormButtons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+}
+
+.authFormContainer button {
+  width: 30%;
+}
+
+.dashboardTitleContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4rem;
+}
+
+.addTodoContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  width: 100%;
+}
+
+.authFormContainer input,
+.authFormContainer button,
+.dashboardTitleContainer button,
+.addTodoContainer input,
+.addTodoContainer button,
+.todoCard input,
+.todoCardButtons button {
+  padding: 1rem;
+  border: none;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.addTodoContainer input {
+  width: 70%;
+}
+
+.todoCard {
+  display: flex;
+  justify-content: space-between;
+}
+
+.todoCard input {
+  width: 50%;
+}
+
+.todoCardButtons button:not(:first-child) {
+  margin-left: 1rem;
 }

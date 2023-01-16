@@ -23,10 +23,12 @@ const TodoCard = ({ todo }) => {
   }
 
   return (
-    <div>
+    <div className="todoCard">
       <input type="text" value={currentTodo} onChange={handleChange} name="todo" />
-      <button onClick={handleUpdateTodo}>Update</button>
-      <button onClick={handleDeleteTodo}>Delete</button>
+      <div className="todoCardButtons">
+        <button onClick={handleUpdateTodo}>Update</button>
+        <button onClick={handleDeleteTodo}>Delete</button>
+      </div>
     </div>
   )
 }

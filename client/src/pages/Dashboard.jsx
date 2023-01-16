@@ -1,15 +1,14 @@
 import { useEffect, useRef } from "react";
 import { getTodosThunk, addTodoThunk } from "../store/todoSlice";
+import { logoutThunk } from "../store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import TodoCard from "../components/TodoCard";
-
-// const todos = ["todo1", "todo2", "todo3"];
 
 const Dashboard = () => {
   const addTodoInputRef = useRef();
 
   const todos = useSelector(state => state.todo.todos);
-  console.log(todos);
+  const token = useSelector(state => state.auth.token);
 
   const dispatch = useDispatch();
 
@@ -19,23 +18,35 @@ const Dashboard = () => {
 
   function handleAddTodo(event) {
     event.preventDefault();
+    const todo = addTodoInputRef.current.value;
+    if (todo === "" || todos.includes(todo)) return;
     dispatch(addTodoThunk(addTodoInputRef.current.value));
     addTodoInputRef.current.value = "";
   }
 
+  function handleLogout(event) {
+    event.preventDefault();
+    dispatch(logoutThunk());
+  }
+
   return (
-    <div>
-      <h1>Todos</h1>
-      <div>
+    <div className="dashboardContainer">
+      <div className="dashboardTitleContainer">
+        <h1>Todos</h1>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+      <div className="addTodoContainer">
         <input ref={addTodoInputRef} />
         <button onClick={handleAddTodo}>Add Todo</button>
       </div>
       <div>
-        {todos.length
-          ? todos.map(todo => (
-            <TodoCard todo={todo} key={todo.id} />
-          ))
-          : "no todos yet"
+        {token != null
+          ? todos.length
+            ? todos.map(todo => (
+              <TodoCard todo={todo} key={todo.id} />
+            ))
+            : "no todos yet"
+          : "loading"
         }
       </div>
     </div>

@@ -10,29 +10,29 @@ const AuthForm = ({ page }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const buttonText = page === "signup" ? "Sign Up" : "Login";
+  const text = page === "signup" ? "Sign Up" : "Login";
   const authThunk = page === "signup" ? signupThunk : loginThunk;
 
   return (
-    <div>
-      {page === "signup" ? <h1>Sign Up</h1> : <h1>Login</h1>}
+    <div className="authFormContainer">
+      <h1>{text}</h1>
       <input type="text" placeholder="Username" name="username" ref={usernameRef} />
       <input type="password" placeholder="Password" name="password" ref={passwordRef} />
-      <button
-        onClick={() => dispatch(
-          authThunk({
-            username: usernameRef.current.value,
-            password: passwordRef.current.value
-          })
-        ).then(() => navigate(page === "signup" ? "/login" : "/"))}
-      >
-        {buttonText}
-      </button>
-      <button
-        onClick={() => navigate(page === "signup" ? "/login" : "/signup")}
-      >
-        {page === "signup" ? "Login" : "Sign Up"}
-      </button>
+      <div className="authFormButtons">
+        <button
+          onClick={() => dispatch(
+            authThunk({
+              username: usernameRef.current.value,
+              password: passwordRef.current.value
+            })
+          ).then(() => navigate(page === "signup" ? "/login" : "/"))}
+        >
+          {text}
+        </button>
+        <button onClick={() => navigate(page === "signup" ? "/login" : "/signup")}>
+          {page === "signup" ? "Login" : "Sign Up"}
+        </button>
+      </div>
     </div>
   )
 }
