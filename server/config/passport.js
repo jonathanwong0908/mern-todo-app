@@ -1,29 +1,25 @@
-const passport = require("passport");
-const passportJWT = require("passport-jwt");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJWT = require("passport-jwt").ExtractJwt;
 const dotenv = require("dotenv");
 const User = require("../models/User");
 
 dotenv.config();
 
-module.exports = () => {
-  const ExtractJWT = passportJWT.ExtractJwt;
-  passport.use(
-    new passportJWT.Strategy({
-      secretOrKey: process.env.JWT_SECRET,
-      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      passReqToCallback: true
-    }, async (req, payload, done) => {
-      const user = await User.findById(payload.id);
-      if (user) {
-        return done(null, true);
-      } else {
-        return done(new Error("User not found"), false);
-      }
-    })
-  )
-  return {
-    initialize: () => {
-      return passport.initialize();
-    }
+const options = {
+  jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET
+}
+
+const strategy = new JwtStrategy(options, async (payload, done) => {
+  try {
+    const user = await User.findById(payload.id);
+    if (!user) return done(null, false);
+    return done(null, user);
+  } catch (error) {
+    done(error, null);
   }
+})
+
+module.exports = (passport) => {
+  passport.use(strategy);
 }

@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 
 exports.registerUser = async (req, res) => {
   try {
@@ -40,4 +41,14 @@ exports.loginUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+}
+
+exports.authorizeUser = (req, res, next) => {
+  passport.authenticate("jwt", { session: false });
+  let token = req.headers.authorization;
+  token = token.replace("Bearer ", "");
+  const verify = jwt.verify(token, process.env.JWT_SECRET);
+  if (!verify) return res.status(401).json({ message: "Not authorized" });
+  req.user = verify.username;
+  next();
 }
