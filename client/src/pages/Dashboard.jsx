@@ -9,6 +9,7 @@ const Dashboard = () => {
   const addTodoInputRef = useRef();
 
   const todos = useSelector(state => state.todo.todos);
+  console.log(todos);
 
   const dispatch = useDispatch();
 
@@ -32,7 +33,7 @@ const Dashboard = () => {
       <div>
         {todos.length
           ? todos.map(todo => (
-            <TodoCard todo={todo} key={todo} />
+            <TodoCard todo={todo} key={todo.id} />
           ))
           : "no todos yet"
         }

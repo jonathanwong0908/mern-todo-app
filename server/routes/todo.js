@@ -8,4 +8,8 @@ router.get("/todos", authorizeUser, todoController.getTodos);
 
 router.post("/todos", authorizeUser, todoController.postTodos);
 
+router.put("/todos", authorizeUser, todoController.updateTodo);
+
+router.delete("/todos", authorizeUser, todoController.deleteTodo);
+
 module.exports = router;
