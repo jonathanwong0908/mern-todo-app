@@ -7,9 +7,7 @@ exports.registerUser = async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.find({ username });
-    if (user) {
-      res.status(401);
-    }
+    if (user) return res.status(401);
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
@@ -24,17 +22,10 @@ exports.loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(400).json({ message: "User does not exist" });
-    }
+    if (!user) return res.status(400).json({ message: "User does not exist" });
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials." });
-    }
-    const payload = {
-      id: user.id,
-      username: user.username
-    }
+    if (!isMatch) return res.status(400).json({ message: "Invalid credentials." });
+    const payload = { id: user.id, username: user.username };
     const token = jwt.sign(payload, process.env.JWT_SECRET);
     delete user.password;
     res.status(200).json({ token, user });
